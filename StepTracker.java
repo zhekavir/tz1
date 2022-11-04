@@ -31,22 +31,35 @@ public class StepTracker {
     }
 
     void statMonth(int monthStat) {
+        int[] days = monthToData[monthStat - 1].days;
         int sumSteps = 0;
         int maxSteps = 0;
-        for (int i = 0; i < monthToData[monthStat - 1].days.length; i++) {
-            System.out.println("вы прошли за " + (i + 1) + "." + (monthStat) + ".2022 " + monthToData[monthStat - 1].days[i] + " шагов");
+        int series = 0;
+        int bestSeries = 0;
+        for (int i = 0; i < days.length; i++) {
+            int daySteps = days[i];
+            System.out.println("вы прошли за " + (i + 1) + "." + (monthStat) + ".2022 " + daySteps + " шагов");
 
-            sumSteps += monthToData[monthStat - 1].days[i];
-            if (monthToData[monthStat - 1].days[i] > maxSteps) {
-                maxSteps = monthToData[monthStat - 1].days[i];
+            sumSteps += daySteps;
+            if (daySteps > maxSteps) {
+                maxSteps = daySteps;
+            }
+            if (daySteps >= purp) {
+                series += 1;
+                if (series > bestSeries) {
+                    bestSeries = series;
+                }
+            } else {
+                series = 0;
             }
         }
         System.out.println("Максимально за день вы прошли " + maxSteps + " шагов");
         System.out.println("Всего за месяц вы прошли " + sumSteps + " шагов");
-        int averageStep = sumSteps / monthToData[monthStat - 1].days.length;
+        int averageStep = sumSteps / days.length;
         System.out.println("В среднем за месяц вы проходили " + averageStep);
         System.out.println("За месяц вы прошли " + convert.stepInKm(maxSteps) + " километров");
         System.out.println("За месяц вы сожгли " + convert.ccal(maxSteps) + " килокалорий");
+        System.out.println("Ваша лучшая серия " + bestSeries);
     }
 
 
@@ -58,21 +71,5 @@ public class StepTracker {
         } else {
             System.out.println("количество шагов не может быть отрицательным");
         }
-    }
-
-    int bestSeries(int monthStat) {
-        int series = 0;
-        int bestSeries = 0;
-        for (int i = 0; i < monthToData[monthStat - 1].days.length; i++) {
-            if (monthToData[monthStat - 1].days[i] >= purp) {
-                series += 1;
-                if (series > bestSeries) {
-                    bestSeries = series;
-                }
-            } else {
-                series = 0;
-            }
-        }
-        return bestSeries;
     }
 }

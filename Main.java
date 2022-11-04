@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         StepTracker track = new StepTracker();
-        //Converter convert = new Converter();
 
         int userInput;
         do {
@@ -14,27 +13,28 @@ public class Main {
             if (userInput == 1) {
                 System.out.println("Введите месяц от 1 до 12");
                 int month = scanner.nextInt();
-                if (month <= 12 && month > 0) {
-                    System.out.println("Введите день от 1 до 30");
-                } else {
+
+                if (month <0 || month >12) {
                     System.out.println("Ошибка: введено некорректное значение");
                     continue;
                 }
+                System.out.println("Введите день от 1 до 30");
                 int days = scanner.nextInt();
-                if (days <= 30 && days > 0) {
-                    System.out.println("Введите шаги");
-                } else {
+
+                if (days > 30 || days < 0) {
                     System.out.println("Ошибка: введено некорректное значение");
                     continue;
                 }
+
+                System.out.println("Введите шаги");
                 int steps = scanner.nextInt();
-                if (steps >= 0) {
-                    track.saveSteps(month, days, steps);
-                    System.out.println("Записано");
-                    track.printSteps(month, days);
-                } else {
+                if (steps < 0) {
                     System.out.println("Ошибка: Введено отрицательное количество шагов");
+                    continue;
                 }
+                track.saveSteps(month, days, steps);
+                System.out.println("Записано");
+                track.printSteps(month, days);
 
             } else if (userInput == 2) {
                 System.out.println("Напечатать статистику за определённый месяц");
@@ -42,7 +42,7 @@ public class Main {
                 int monthStat = scanner.nextInt();
                 if (monthStat <= 12 && monthStat > 0) {
                     track.statMonth(monthStat);
-                    System.out.println("Ваша лучшая серия " + track.bestSeries(monthStat));
+
                 } else {
                     System.out.println("Ошибка: Месяц введен некорректно");
                 }
@@ -53,12 +53,11 @@ public class Main {
                 track.changePurpose(purps);
             } else if (userInput == 4) {
                 System.out.println("Выход");
-                break;
             } else {
                 System.out.println("Извините, такой команды пока нет.");
             }
         }
-        while (userInput != 0);
+        while (userInput != 4);
     }
 
     private static void printMenu() {
